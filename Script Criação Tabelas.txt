@@ -1,0 +1,80 @@
+CREATE TABLE Fornecedor {
+	id integer pk increments
+	Nome varchar(50)
+	Nomdoc integer unique
+	fisjur varchar(1)
+	contato varchar(12) 
+}
+
+Cliente {
+	id integer pk increments 
+	Nome varchar(50)
+	Nomdoc integer unique
+	fisjur varchar(1)
+	contato varchar(12)
+	CEP integer
+	Endereco varchar(50)
+	cidade varchar(50)
+	bairro varchar(50)
+}
+
+Vendedor {
+	id integer pk increments
+	Nome varchar(50)
+	Nomdoc integer unique
+	fisjur varchar(1)
+	contato varchar(12)
+}
+
+Localizacao {
+	id integer pk increments
+	Descricao varchar(50)
+}
+
+Produto {
+	id integer pk increments
+	Nome varchar(50)
+	saldo integer unique
+	valor varchar(1)
+	fornecedor int(12)
+}
+
+Pedido {
+	id integer pk increments 
+	id_cliente integer FOREIGN KEY REFERENCES Cliente(id)
+	id_vendedor integer FOREIGN KEY REFERENCES Vendedor(id)
+	valortotal integer
+	situac_finan varchar(1)
+	situac_env varchar(1)
+	situac_ped varchar(1)
+}
+
+ItensPedido {
+	id integer pk increments
+	id_produto integer FOREIGN KEY REFERENCES Produto(id)
+	qtdIntens float
+	id_pedido integer FOREIGN KEY REFERENCES Pedido(id)
+}
+
+Financeiro {
+	id integer pk increments unique
+	Valor float
+	pedido integer FOREIGN KEY REFERENCES Pedido(id)
+	cliente integer FOREIGN KEY REFERENCES Cliente(id)
+	situacao varchar(1)
+	FormaPagto integer FOREIGN KEY REFERENCES FormaPagamento(id)
+}
+
+FormaPagamento {
+	id integer pk increments >* Financeiro.FormaPagto
+	descri integer
+}
+
+Envio {
+	id integer pk increments unique
+	idPedido int FOREIGN KEY REFERENCES Pedidos(id)
+	CodigoRastreio integer unique
+	Dataenvio datetime
+	prevEntrega datetime
+	situacao varchar
+}
